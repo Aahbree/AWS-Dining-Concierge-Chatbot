@@ -65,7 +65,7 @@ def lambda_handler(event, context):
         Store the relevant info, create the message and sns the info
     """
     
-    es_query = "https://search-search-restaurant-m2jiw2a2ntzgzzctr55yxl6glq.us-east-1.es.amazonaws.com/_search?q={cuisine}".format(
+    es_query = "https://search-search-restaurant-m2jiw2a2ntzgzzctr55yxl6glq.us-east-1.es.amazonaws.com/search-restaurant/_search?q={cuisine}".format(
         cuisine=cuisine)
     esResponse = requests.get(es_query)
     print(esResponse)
@@ -78,7 +78,7 @@ def lambda_handler(event, context):
     # extract bID from AWS ES
     ids = []
     for restaurant in esData:
-        ids.append(restaurant["_source"]["id"])
+        ids.append(restaurant["_id"])
     
     messageToSend = 'Hello! Here are my {cuisine} restaurant suggestions in {location} for {numPeople} people, for {diningDate} at {diningTime}: '.format(
             cuisine=cuisine,
